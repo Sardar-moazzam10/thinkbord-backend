@@ -26,13 +26,13 @@ app.use('/api', ratelimitmiddleware);
 //     next();
 // });
 
-app.use((req, res, next) => {
-    res.setHeader(
-        'Content-Security-Policy',
-        "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self';"
-    );
-    next();
-});
+// app.use((req, res, next) => {
+//     res.setHeader(
+//         'Content-Security-Policy',
+//         "default-src 'self'; style-src 'self' https://cdn.jsdelivr.net; script-src 'self';"
+//     );
+//     next();
+// });
 
 // ✅ Notes Routes
 app.use("/api/notes", notesRouter);
