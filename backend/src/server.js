@@ -21,6 +21,7 @@ app.use(express.json());
 
 // ✅ Rate Limiting
 app.use('/api', ratelimitmiddleware);
+
 // app.use((req, res, next) => {
 //     console.log(`Request Method: ${req.method} | Request URL: ${req.url}`);
 //     next();
@@ -36,6 +37,9 @@ app.use('/api', ratelimitmiddleware);
 
 // ✅ Notes Routes
 app.use("/api/notes", notesRouter);
+app.get('/', (req, res) => {
+    res.send({ "activestatus": "true", "error": "false", "message": "Welcome to the Notes API" });
+});
 // if (process.env.NODE_ENV === "production") {
 //     app.use(express.static(path.join(__dirname, "../frontend/dist")));
 //     app.get("/*splat", (req, res) => {
@@ -43,9 +47,7 @@ app.use("/api/notes", notesRouter);
 //     });
 // }
 
-app.get('/', (req, res) => {
-    res.send({ "activestatus": "true", "error": "false", "message": "Welcome to the Notes API" });
-});
+
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`✅ Server is running on http://localhost:${PORT}`);
