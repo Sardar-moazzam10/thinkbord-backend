@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import path from "path";
+// import path from "path";
 import cors from 'cors';
 import { connectDB } from './connection/db.js';
 import notesRouter from './router/notesRouter.js';
@@ -8,14 +8,14 @@ import ratelimitmiddleware from './middleware/rateLimit.js';
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
-const __dirname = path.resolve();
-if (process.env.NODE_ENV !== "production") {
-    app.use(
-        cors({
-            origin: process.env.CORS_ORIGIN,
-        })
-    );
-}
+// const __dirname = path.resolve();
+// if (process.env.NODE_ENV !== "production") {
+app.use(
+    cors({
+        origin: process.env.CORS_ORIGIN,
+    })
+);
+// }
 // // ✅ JSON Body Parser
 app.use(express.json());
 
@@ -36,14 +36,16 @@ app.use('/api', ratelimitmiddleware);
 
 // ✅ Notes Routes
 app.use("/api/notes", notesRouter);
-if (process.env.NODE_ENV === "production") {
-    app.use(express.static(path.join(__dirname, "../frontend/dist")));
-    app.get("/*splat", (req, res) => {
-        res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-    });
-}
+// if (process.env.NODE_ENV === "production") {
+//     app.use(express.static(path.join(__dirname, "../frontend/dist")));
+//     app.get("/*splat", (req, res) => {
+//         res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
+//     });
+// }
 
-
+app.get('/', (req, res) => {
+    res.send({ "activestatus": "true", "error": "false", "message": "Welcome to the Notes API" });
+});
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log(`✅ Server is running on http://localhost:${PORT}`);
